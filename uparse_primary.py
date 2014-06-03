@@ -157,7 +157,7 @@ def main():
 	command_list.append(cluster_command)
 
 	# Chimera
-	chimera_command = "usearch7 -uchime_ref %sotus.fasta -db %sgold.fa -strand plus -nonchimeras %snon_chimeric_otus.fna" % (output_dir, bin_dir, output_dir)
+	chimera_command = "usearch7 -uchime_ref %sotus.fasta -db %s/gold.fa -strand plus -nonchimeras %snon_chimeric_otus.fna" % (output_dir, bin_dir, output_dir)
 	command_list.append(chimera_command)
 
 	# Fasta number
