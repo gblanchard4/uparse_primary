@@ -17,6 +17,7 @@ def main():
 	import commands
 	import subprocess
 	import sys
+	import distutils.spawn
 
 	#~~~~~~~~~~~~~~~~~~~~~~
 	# Parameters
@@ -60,8 +61,6 @@ def main():
 	filter_truncqual = options.filter_truncqual
 	filter_trunclen = options.filter_trunclen
 	
-	bin_dir =  '/opt/uparse_primary/'
-
 
 	try:
 		subprocess.Popen("print_qiime_config.py", stdout=open(os.devnull, 'w') ) 	
@@ -116,6 +115,7 @@ def main():
 		sys.exit()
 
 
+	bin_dir =  '/'.join(distutils.spawn.find_executable('uparse_primary.py').split('/')[:-1])
 
 
 	#~~~~~~~~~~~~~~~~~~~~~~
@@ -141,7 +141,7 @@ def main():
 	command_list.append(cat_filtered_command)
 
 	# Derep seqs
-	derep_seqs_command = "%sderep_seqs.py -i %sfiltered.fna" % (bin_dir, output_dir)
+	derep_seqs_command = "derep_seqs.py -i %sfiltered.fna" % (output_dir)
 	command_list.append(derep_seqs_command)
 
 	# Sort by size
@@ -149,7 +149,7 @@ def main():
 	command_list.append(sort_command)
 
 	# Xton counter
-	xton_command = "%scrouton.py -i %sderep_filtered.fna -o %s output_dir -n 10" % (bin_dir, output_dir, output_dir)
+	xton_command = "crouton.py -i %sderep_filtered.fna -o %s -n 10" % (output_dir, output_dir)
 	command_list.append(xton_command)
 	
 	# Cluster
@@ -181,7 +181,7 @@ def main():
 	command_list.append(align_seqs_command)
 
 	# Assign taxa
-	assign_taxa_command = "assign_taxonomy.py -i %sfiltered.fna_rep_set_aligned.fasta -m rdp -o %s/rdp_assigned_taxonomy/" % (pynast_dir, output_dir)
+	assign_taxa_command = "assign_taxonomy.py -i %sfiltered.fna_rep_set_aligned.fasta -m rdp -o %srdp_assigned_taxonomy/" % (pynast_dir, output_dir)
 	command_list.append(assign_taxa_command)
 	
 	# Filter alignment
@@ -201,7 +201,7 @@ def main():
 	shell_file =  output_dir+'uparse_primary.sh'
 	with open(shell_file, 'wb') as shell:
 		with open(stdout_file, 'wb') as stdout:
-			with open(stderr_file, 'wb') as stderr:
+			with open(stderr_file, 'wb') as stderr:low-quality
 				for command in command_list:
 					try:	
 						shell.write(command+'\n')
@@ -212,18 +212,12 @@ def main():
 
 
 def merge_reads(bin_dir, input_dir, output_dir, truncqual):
-	command = "%suparse_batch_merge.py -i %s -o %s --fastq_truncqual %s" % (bin_dir, input_dir, output_dir, truncqual)
+	command = "uparse_batch_merge.py -i %s -o %s --fastq_truncqual %s" % (input_dir, output_dir, truncqual)
 	return command
 
 def filter_reads(bin_dir, input_dir, output_dir, truncqual, trunclen):
-	command = "%suparse_batch_filter.py -i %s -o %s --fastq_truncqual %s --fastq_trunclen %s " % (bin_dir, input_dir, output_dir, truncqual, trunclen)
+	command = "uparse_batch_filter.py -i %s -o %s --fastq_truncqual %s --fastq_trunclen %s " % (input_dir, output_dir, truncqual, trunclen)
 	return command
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
