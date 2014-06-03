@@ -65,8 +65,8 @@ for seq_record in SeqIO.parse(input_fasta, 'fasta'):
 		formated_string = sequences[sequence].split('=')[0]+'='+str(count)+';'
 		sequences[sequence] = formated_string
 		percent_complete = "%.0f%%" % (100.0 * sequence_count/records)
-		sys.stdout.write('Percent complete:\t'+percent_complete+'\r')
-		sys.stdout.flush()
+#		sys.stdout.write('Percent complete:\t'+percent_complete+'\r')
+#		sys.stdout.flush()
 duplicate_time_complete = time.time()-duplicate_time
 print 'It took %s seconds to remove duplicates' % int(duplicate_time_complete)
 
