@@ -89,6 +89,14 @@ def main():
 	merge_command = merge_reads(bin_dir, input_dir, merged_dir, merge_truncqual)
 	command_list.append(merge_command)
 
+	# Cat the merged fastas together to create an FNA
+	cat_filtered_command = "cat %s/*.fasta > %smerged.fna" % (filtered_dir, output_dir)
+	command_list.append(cat_filtered_command)
+
+	# Sequence length calculator
+	sequence_length_command = "sequence_length_counter.py -i merged.fna -f fastq"
+	command_list.append(sequence_length_command)
+
 	# Filter
 	filter_command = filter_reads(bin_dir, merged_dir, filtered_dir, filter_truncqual, filter_trunclen)
 	command_list.append(filter_command)
