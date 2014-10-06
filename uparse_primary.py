@@ -2,47 +2,54 @@
 
 __author__ = "Gene Blanchard"
 __email__ = "me@geneblanchard.com"
+__version__ = "1.5"
+
+# Imports
+#~~~~~~~~~~~~~~~~~~~~~~
+import argparse
+import os
+import commands
+import subprocess
+import sys
+import distutils.spawn
 
 '''
 Uparse primary analysis script
 
+Steps
+
 '''
 
 def main():
-	#~~~~~~~~~~~~~~~~~~~~~~
-	# Imports
-	#~~~~~~~~~~~~~~~~~~~~~~
-	from optparse import OptionParser
-	import os
-	import commands
-	import subprocess
-	import sys
-	import distutils.spawn
 
-	#~~~~~~~~~~~~~~~~~~~~~~
+
+	
 	# Parameters
 	#~~~~~~~~~~~~~~~~~~~~~~
 
 	#Create the option parser
-	parser = OptionParser()
+	parser = argparse.ArgumentParser(description='Run a primary analysis on the raw fastqs')
 
 	#input_dir -i --input
-	parser.add_option("-i", "--input", action="store", type="string", dest="input_dir", help="The directory containing the fastqs you want to analize")
-
+	parser.add_argument("-i", "--input", type="string", dest="input_dir", help="The directory containing the fastqs you want to analize", required=True)
 	#output_dir -o --output
-	parser.add_option("-o", "--output", action="store", type="string", dest="output_dir", help="The directory to write the results to")
-
+	parser.add_argument("-o", "--output",  type="string", dest="output_dir", help="The directory to write the results to", required=True)
 	#merge_truncqual --merge_truncqual
-	parser.add_option("--merge_truncqual", action="store", type="string", dest="merge_truncqual", help="Truncate the forward and reverse reads at the first Q<=q,  if present. This truncation is performed before aligning the pair. With Illumina paired reads, it is recommended to use -fastq_truncqual 2 , as low-quality tails will otherwise often cause alignment of the pair to fail. Default: no quality truncation.")
-
+	parser.add_argument("--merge_truncqual", type="string", dest="merge_truncqual", help="Truncate the forward and reverse reads at the first Q<=q,  if present. This truncation is performed before aligning the pair. With Illumina paired reads, it is recommended to use -fastq_truncqual 2 , as low-quality tails will otherwise often cause alignment of the pair to fail. Default: no quality truncation.", required=True)
 	#filter_truncqual --filter_truncqual
-	parser.add_option("--filter_truncqual", action="store", type="string", dest="filter_truncqual", help="Truncate the read at the first position having quality score <= N, so that all remaining Q scores are >N.")
-
+	parser.add_argument("--filter_truncqual", type="string", dest="filter_truncqual", help="Truncate the read at the first position having quality score <= N, so that all remaining Q scores are >N.", required=True)
 	#filter_trunclen --filter_trunclen
-	parser.add_option("--filter_trunclen", action="store", type="string", dest="filter_trunclen", help="Truncate sequences at the L'th base. If the sequence is shorter than L, discard.")
+	parser.add_argument("--filter_trunclen", type="string", dest="filter_trunclen", help="Truncate sequences at the L'th base. If the sequence is shorter than L, discard.", required=True)
+	# Parse arguments
+	args = parser.parse_args()
 
-	#Grab command line options
-	(options, args) = parser.parse_args()
+	#Set variables from command line args
+	input_dir = args.input_dir
+	output_dir = args.output_dir
+	merge_truncqual = args.merge_truncqual
+	filter_truncqual = args.filter_truncqual
+	filter_trunclen = args.filter_trunclen
+	
 
 
 
@@ -53,13 +60,6 @@ def main():
 	ERROR = False
 	# Make sure all parameters are entered
 
-	#Set variables from command line options
-	
-	input_dir = options.input_dir
-	output_dir = options.output_dir
-	merge_truncqual = options.merge_truncqual
-	filter_truncqual = options.filter_truncqual
-	filter_trunclen = options.filter_trunclen
 	
 
 	try:
