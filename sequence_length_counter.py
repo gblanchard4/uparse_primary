@@ -87,8 +87,7 @@ def main():
 	plt.plot(x_axis, y_axis)
 	
 	path = '/'.join(os.path.abspath(input_file).split('/')[:-1])+'/'
-	filename = 'derep_'+os.path.abspath(input_file).split('/')[-1]
-	plot_name = path+filename+'.png'
+	plot_name = path+'sequence_lengths.png'
 	plt.savefig(plot_name)
 
 
