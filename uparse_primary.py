@@ -13,26 +13,17 @@ import subprocess
 import sys
 import distutils.spawn
 
-'''
-Uparse primary analysis script
-
-Steps
-
-'''
 
 def main():
 
-
-	
 	# Parameters
 	#~~~~~~~~~~~~~~~~~~~~~~
-
 	#Create the option parser
 	parser = argparse.ArgumentParser(description='Run a primary analysis on the raw fastqs')
 
 	#input_dir -i --input
 	parser.add_argument("-i", "--input", type="string", dest="input_dir", help="The directory containing the fastqs you want to analize", required=True)
-	#output_dir -o --output
+	#output_dir -o --output1
 	parser.add_argument("-o", "--output",  type="string", dest="output_dir", help="The directory to write the results to", required=True)
 	#merge_truncqual --merge_truncqual
 	parser.add_argument("--merge_truncqual", type="string", dest="merge_truncqual", help="Truncate the forward and reverse reads at the first Q<=q,  if present. This truncation is performed before aligning the pair. With Illumina paired reads, it is recommended to use -fastq_truncqual 2 , as low-quality tails will otherwise often cause alignment of the pair to fail. Default: no quality truncation.", required=True)
@@ -49,47 +40,15 @@ def main():
 	merge_truncqual = args.merge_truncqual
 	filter_truncqual = args.filter_truncqual
 	filter_trunclen = args.filter_trunclen
-	
 
-
-
-	#~~~~~~~~~~~~~~~~~~~~~~
 	# Error checking
 	#~~~~~~~~~~~~~~~~~~~~~~
 
 	ERROR = False
-	# Make sure all parameters are entered
-
-	
-
 	try:
 		subprocess.Popen("print_qiime_config.py", stdout=open(os.devnull, 'w') ) 	
 	except OSError:
 		print "ERROR: Qiime is not loaded into your path\n"
-		ERROR = True
-
-	if input_dir == None:
-		print 'ERROR: You need to enter an input directory\n'
-		ERROR = True
-	else:
-		input_dir = os.path.abspath(input_dir)+'/'
-
-	if output_dir == None:
-		print 'ERROR: You need to enter an output directory\n'
-		ERROR = True
-	else:
-		output_dir = os.path.abspath(output_dir)+'/'
-
-	if merge_truncqual == None:
-		print 'ERROR: You need to enter a --merge_truncqual value\n'
-		ERROR = True
-
-	if filter_truncqual == None:
-		print 'ERROR: You need to enter a --filter_truncqual value\n'
-		ERROR = True
-
-	if filter_trunclen == None:
-		print 'ERROR: You need to enter a --filter_trunclen value\n'
 		ERROR = True
 
 	# Check if the output directory exists
@@ -114,11 +73,9 @@ def main():
 		print "\n Errors found: Use the -h option for more information"
 		sys.exit()
 
-
+	# Set the bin dir to where the executable is found
 	bin_dir =  '/'.join(distutils.spawn.find_executable('uparse_primary.py').split('/')[:-1])
 
-
-	#~~~~~~~~~~~~~~~~~~~~~~
 	# Command Builder
 	#~~~~~~~~~~~~~~~~~~~~~~
 	command_list = []
@@ -212,7 +169,7 @@ def main():
 
 
 def merge_reads(bin_dir, input_dir, output_dir, truncqual):
-	command = "uparse_batch_merge.py -i %s -o %s --fastq_truncqual %s" % (input_dir, output_dir, truncqual)
+	command = "uparse_batch_merge.py -i %s -o %s --fastq_truncqual 2" % (input_dir, output_dir)
 	return command
 
 def filter_reads(bin_dir, input_dir, output_dir, truncqual, trunclen):
