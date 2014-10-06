@@ -75,7 +75,10 @@ def main():
 
 	x_axis = []
 	y_axis = []
-	with open('sequence_lengths.txt', 'w') as len_file:
+
+	path = '/'.join(os.path.abspath(input_file).split('/')[:-1])+'/'
+
+	with open(path+'sequence_lengths.txt', 'w') as len_file:
 		for length, counter in lengths.items():
 			len_file.write("%d\t%d" % (length, counter))
 			x_axis.append(length)
