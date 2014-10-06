@@ -2,6 +2,10 @@ uparse_primary
 ==============
 Collection Of Scripts to run a uparse primary analysis
 
+# Standard
+Merge: Truncqual 2
+Filter: Truncqual 2, Trunclen 400
+
 ## Flow
 1. Merge reads
 `uparse_batch_merge.py -i input_dir -o output_dir --fastq_truncqual truncqual`
