@@ -2,6 +2,8 @@
 
 from optparse import OptionParser
 import numpy
+import matplotlib.pyplot as plt
+import os
 
 __author__ = "Gene Blanchard"
 __email__ = "me@geneblanchard.com"
@@ -51,30 +53,40 @@ def main():
 
 	#fasta -i --input
 	parser.add_option("-i", "--input", action="store", type="string", dest="input", help="The input file")
+	# filetype -f --filetype
+	parser.add_option("-f", "--filetype", action="store", type="string", dest="filetype", help="The filetype, fastq/fasta")
 
 	# Grab command line args
 	(options, args) = parser.parse_args()
 
 	# Arguments passed, assign them to variables
 	input_file = options.input
+	filetype = options.filetype
 
-	extension = input_file.split('.')[-1]
+	if filetype == None:
+		extension = input_file.split('.')[-1]
+	else:
+		extension = filetype
+
 	if extension == "fastq":
 		lengths = fastq(input_file)
 	else:
 		lengths = fasta(input_file)
 
-	for length, counter in lengths.items():
-		print "%d\t%d" % (length, counter)
+	x_axis = []
+	y_axis = []
+	with open('sequence_lengths.txt', 'w') as len_file:
+		for length, counter in lengths.items():
+			len_file.write("%d\t%d" % (length, counter))
+			x_axis.append(length)
+			y_axis.append(counter)
 
-
+	plt.plot(x_axis, y_axis)
 	
-'''
-	print "Minimum:\t%s" % min(length_array)
-	print "Maximum:\t%s" % max(length_array)
-	print "Average:\t%s" % numpy.mean(length_array)
-	print "Length\tCount"  	
-'''
+	path = '/'.join(os.path.abspath(input_file).split('/')[:-1])+'/'
+	filename = 'derep_'+os.path.abspath(input_file).split('/')[-1]
+	plot_name = path+filename+'.png'
+	plt.savefig(plot_name)
 
 
 
