@@ -11,7 +11,36 @@ Input is a directory that contains raw gunzipped fastq files.
 # Output  
 Output is a biom and tre we can pass to Qiime.
 
-## Flow
+# Helper Scripts
+##uparse_batch_merge.py  
+Run a `usearch -fastq_mergepairs` command on a directory of fastqs. The standard protocal is to pass a `--fastq_truncqual` of 2. Other available options are:
+* --fastq_minovlen  
+  * Minimum length of the overlap. Default: no minimum
+* --fastq_minmergelen  
+  * Minimum length of the overlap. Default: no minimum
+* --fastq_maxmergelen  
+  * Maximum length of the merged read. Default: no maximum
+* --fastq_maxdiffs  
+  * Maximum number of mismatches allowed in the overlap region. Default: any number of mismatches allowed
+* --fastq_minlen  
+  * Minimum length of the forward and reverse read, after truncating per  -fastq_truncqual if applicable. Default: no minimum
+* --fastq_minovlen    
+  * Allow merge of a pair where the alignment is 'staggered'  
+
+## uparse_batch_filter.py  
+Runs the `usearch -fastq_filter` command on a directory of fastqs. Available options are `--fastq_truncqual` and `--fastq_trunclen`. You could also pass `--forward` if you only want the
+forward reads to be processed due to poor reverse read quality.
+
+## derep_seqs.py  
+Dereplicate sequences in `usearch` style. This script was written to overcome the 32-bit memory limitation.
+
+## crouton.py
+This script graphs the number of singletons, doubletons, tripletons, up to the n you pass it. 
+
+## sequence_length_counter.py
+Counts the length of the sequences and outputs a graph and textfile of the numbers found. We have seen a trimodal distribution of lengths before trimming the sequences to a uniform length.
+
+## uparse_primary.py Flow
 1. Merge reads  
 `uparse_batch_merge.py -i input_dir -o output_dir --fastq_truncqual 2`
 2. Filter merged reads  
