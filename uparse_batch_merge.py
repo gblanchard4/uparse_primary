@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/python
 
 __author__ = "Gene Blanchard"
 __email__ = "me@geneblanchard.com"
