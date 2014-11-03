@@ -2,13 +2,17 @@ uparse_primary
 ==============
 Collection Of Scripts to run a uparse primary analysis
 
-# Standard
+# Reference
+```Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].```
+
+
+## Standard
 We merge the reads with a truncqual value of 2, this will remove any reads with extremely low Q-scores. Our standard practice has been to filter the reads at a trunclen value of 400 and truncqual of 10.
 
-# Input  
+### Input  
 Input is a directory that contains raw gunzipped fastq files.
 
-# Output  
+### Output  
 Output is a biom and tre we can pass to Qiime.
 
 # Helper Scripts
@@ -40,7 +44,7 @@ This script graphs the number of singletons, doubletons, tripletons, up to the n
 ## sequence_length_counter.py
 Counts the length of the sequences and outputs a graph and textfile of the numbers found. We have seen a trimodal distribution of lengths before trimming the sequences to a uniform length.
 
-## uparse_primary.py Flow
+# uparse_primary.py Flow
 1. Merge reads  
 `uparse_batch_merge.py -i input_dir -o output_dir --fastq_truncqual 2`
 2. Filter merged reads  
