@@ -4,6 +4,8 @@ from optparse import OptionParser
 import numpy
 import matplotlib.pyplot as plt
 import os
+import sys
+from collections import OrderedDict
 
 __author__ = "Gene Blanchard"
 __email__ = "me@geneblanchard.com"
@@ -68,10 +70,15 @@ def main():
 	else:
 		extension = filetype
 
-	if extension == "fastq":
-		lengths = fastq(input_file)
+	if extension == "fastq" or extension == "fqa":
+		length_dict = fastq(input_file)
+	elif extension == "fasta" or extension == "fna":
+		length_dict = fasta(input_file)
 	else:
-		lengths = fasta(input_file)
+		print "Extension could not be determined, please use the -f option to specify filetype"
+		sys.exit()
+	
+	lengths = OrderedDict(sorted(length_dict.items(), key=lambda t: t[0]))
 
 	x_axis = []
 	y_axis = []
@@ -80,7 +87,7 @@ def main():
 
 	with open(path+'sequence_lengths.txt', 'w') as len_file:
 		for length, counter in lengths.items():
-			len_file.write("%d\t%d" % (length, counter))
+			len_file.write("{}\t{}\n".format(length, counter))
 			x_axis.append(length)
 			y_axis.append(counter)
 
@@ -89,8 +96,6 @@ def main():
 	path = '/'.join(os.path.abspath(input_file).split('/')[:-1])+'/'
 	plot_name = path+'sequence_lengths.png'
 	plt.savefig(plot_name)
-
-
 
 if __name__ == '__main__':
 	main()
