@@ -138,7 +138,24 @@ def main():
 				proc = subprocess.Popen(command, shell=True, stderr=err)
 				proc.wait()
 			except OSError:
-				print 'FUQ'
+				print 'Whoops'
+
+	statsfile = output_dir+'filterstats.txt'
+	with open(statsfile, 'w') as stats:
+		with open(logfile, 'r') as log:
+			reader =  log.read()
+			header = "Sample\tStartingSeqs\tShortSeqs\tConverted\n"
+			stats.write(header)
+			for part in reader.split("File:\t"):
+				stats_buffer = []
+				if not part == '': 
+					split_parts = part.split('\n')
+					name = split_parts[0].split('/')[1]
+					starting = split_parts[2].lstrip().split(' ')[0]
+					short = split_parts[3].lstrip().split(' ')[0]
+					converted = split_parts[4].lstrip().split(' ')[0]
+					line = "{}\t{}\t{}\t{}\n".format(name,starting,short,converted)
+					stats.write(line)
 
 if __name__ == '__main__':
 	main()
