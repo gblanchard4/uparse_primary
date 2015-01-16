@@ -81,7 +81,8 @@ Counts the length of the sequences and outputs a graph and textfile of the numbe
 `make_otu_table.py -i output_dir/map.uc_otus.txt -o output_dir/otus.biom -t output_dir/rdp_assigned_taxonomy/filtered.fna_rep_set_aligned_tax_assignments.txt`
 
 # Reference
-```Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].
+```
+Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].
 
 QIIME allows analysis of high-throughput community sequencing data
 J Gregory Caporaso, Justin Kuczynski, Jesse Stombaugh, Kyle Bittinger, Frederic D Bushman, Elizabeth K Costello, Noah Fierer, Antonio Gonzalez Pena, Julia K Goodrich, Jeffrey I Gordon, Gavin A Huttley, Scott T Kelley, Dan Knights, Jeremy E Koenig, Ruth E Ley, Catherine A Lozupone, Daniel McDonald, Brian D Muegge, Meg Pirrung, Jens Reeder, Joel R Sevinsky, Peter J Turnbaugh, William A Walters, Jeremy Widmann, Tanya Yatsunenko, Jesse Zaneveld and Rob Knight; Nature Methods, 2010; doi:10.1038/nmeth.f.303
