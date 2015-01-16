@@ -2,12 +2,17 @@ uparse_primary
 ==============
 Collection Of Scripts to run a uparse primary analysis
 
+# Pipeline Usage
+uparse_primary.py -i raw_unzipped_fastqs/ -o primary_q10_l400 --merge_truncqual 2 --filter_truncqual 10 --filter_trunclen 400 
+
+
+
 # Reference
 ```Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].```
 
 
 ## Standard
-We merge the reads with a truncqual value of 2, this will remove any reads with extremely low Q-scores. Our standard practice has been to filter the reads at a trunclen value of 400 and truncqual of 10.
+We merge the reads with a truncqual value of 2, this will remove any reads with extremely low Q-scores. Our standard practice has been to filter the reads at a trunclen value of 400 (for V3-V4) and truncqual of 10.
 
 ### Input  
 Input is a directory that contains raw gunzipped fastq files.
