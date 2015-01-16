@@ -6,11 +6,6 @@ Collection Of Scripts to run a uparse primary analysis
 uparse_primary.py -i raw_unzipped_fastqs/ -o primary_q10_l400 --merge_truncqual 2 --filter_truncqual 10 --filter_trunclen 400 
 
 
-
-# Reference
-```Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].```
-
-
 ## Standard
 We merge the reads with a truncqual value of 2, this will remove any reads with extremely low Q-scores. Our standard practice has been to filter the reads at a trunclen value of 400 (for V3-V4) and truncqual of 10.
 
@@ -84,3 +79,10 @@ Counts the length of the sequences and outputs a graph and textfile of the numbe
 `make_phylogeny.py -i pynast_dir/.fna_rep_set_aligned_pfiltered.fasta`
 17. Make biom  
 `make_otu_table.py -i output_dir/map.uc_otus.txt -o output_dir/otus.biom -t output_dir/rdp_assigned_taxonomy/filtered.fna_rep_set_aligned_tax_assignments.txt`
+
+# Reference
+```Edgar, R.C. (2013) UPARSE: Highly accurate OTU sequences from microbial amplicon reads,Nature Methods [Pubmed:23955772,  dx.doi.org/10.1038/nmeth.2604].
+
+QIIME allows analysis of high-throughput community sequencing data
+J Gregory Caporaso, Justin Kuczynski, Jesse Stombaugh, Kyle Bittinger, Frederic D Bushman, Elizabeth K Costello, Noah Fierer, Antonio Gonzalez Pena, Julia K Goodrich, Jeffrey I Gordon, Gavin A Huttley, Scott T Kelley, Dan Knights, Jeremy E Koenig, Ruth E Ley, Catherine A Lozupone, Daniel McDonald, Brian D Muegge, Meg Pirrung, Jens Reeder, Joel R Sevinsky, Peter J Turnbaugh, William A Walters, Jeremy Widmann, Tanya Yatsunenko, Jesse Zaneveld and Rob Knight; Nature Methods, 2010; doi:10.1038/nmeth.f.303
+```
